@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Decision History</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background:#f4f7fa">
+
+<div class="container py-5">
+
+    <h2 class="text-center mb-4">Decision History</h2>
+
+    <div class="card p-4 shadow">
+
+        <div th:if="${#lists.isEmpty(decisions)}">
+            <div class="alert alert-warning text-center">
+                No records found.
+            </div>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(decisions)}">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover text-center align-middle">
+
+                    <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Goal</th>
+                        <th>Risk</th>
+                        <th>Education</th>
+                        <th>Recommendation</th>
+                        <th>Confidence</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="d : ${decisions}">
+                        <td th:text="${d.id}"></td>
+                        <td th:text="${d.name}"></td>
+                        <td th:text="${d.goal}"></td>
+                        <td th:text="${d.risk}"></td>
+                        <td th:text="${d.education}"></td>
+                        <td th:text="${d.recommendation}"></td>
+                        <td>
+                            <span class="badge bg-success"
+                                  th:text="${d.confidence} + '%'">
+                            </span>
+                        </td>
+                        <td>
+                            <a th:href="@{/pdf/{id}(id=${d.id})}"
+                               class="btn btn-success btn-sm">PDF</a>
+
+                            <a th:href="@{/delete/{id}(id=${d.id})}"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Delete this record?');">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-dark">Back to Home</a>
+    </div>
+
+</div>
+
+</body>
+</html>
